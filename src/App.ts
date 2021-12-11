@@ -3,7 +3,7 @@ import LinkArea from "./components/LinkArea.vue";
 
 let linksData = [] as { short: string; target: string; new: boolean }[];
 
-const host = process.env.NODE_ENV === 'production' ? "" : "https://mr-pine.de/"
+const host = process.env.NODE_ENV === 'production' ? "" : "https://mr-pine.de/links/"
 
 export default Vue.extend({
     name: "App",
@@ -14,7 +14,7 @@ export default Vue.extend({
 
     methods: {
         async asyncStart() {
-            const res = await fetch(host + "links/api/get");
+            const res = await fetch(host + "api/get");
             const rawlinksData = (await res.json()) as {
                 short_uri: string;
                 destination_url: string;
@@ -28,14 +28,20 @@ export default Vue.extend({
                     },
                 ].concat(linksData);
             });
-            linksData = [{ short: "", target: "", new: true }].concat(linksData);
+
+            const urlParams = new URLSearchParams(window.location.search);
+
+            const hasStartLink = urlParams.has('new-link');
+            const newTarget = hasStartLink ? urlParams.get('new-link') as string : ""
+
+            linksData = [{ short: "", target: newTarget, new: true }].concat(linksData);
             this.links = linksData
             console.log(linksData);
         },
         async addLink(data: { short: string, target: string }) {
             if (this.links.find(element => element.short == data.short)) return
             console.log(data);
-            const res = await fetch(host + "links/api/add", {
+            const res = await fetch(host + "api/add", {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json'
@@ -55,12 +61,12 @@ export default Vue.extend({
             }
         },
         async deleteLink(short: string) {
-            const res = await fetch(host + "links/api/delete", {
+            const res = await fetch(host + "api/delete", {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({short: short})
+                body: JSON.stringify({ short: short })
             })
             if (res.status == 200) {
                 linksData.splice(
@@ -70,8 +76,8 @@ export default Vue.extend({
                 this.links = linksData
             }
         },
-        async editLink(data: {short: string, target: string, oldShort: string}){
-            const res = await fetch(host + "links/api/edit", {
+        async editLink(data: { short: string, target: string, oldShort: string }) {
+            const res = await fetch(host + "api/edit", {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json'
