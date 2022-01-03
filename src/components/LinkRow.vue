@@ -26,7 +26,7 @@
           <span class="px-2" />
           <v-switch v-model="caseSensitiveUrl" label="Case sensitive" hide-details="auto"></v-switch>
           <span class="px-2" />
-          <v-btn outlined large height="56" @click="submitLink()">
+          <v-btn outlined large height="56" @click="submitLink()" :disabled="(shortUrl == short && targetUrl == target && caseSensitiveUrl == caseSensitive) && !isNew">
             <span v-if="isNew">Add<v-icon> mdi-plus </v-icon></span>
             <span v-else>Update <v-icon> mdi-publish </v-icon></span>
           </v-btn>
