@@ -2,7 +2,7 @@
   <v-container>
     <v-sheet elevation="2" rounded :class="isNew ? 'mb-6':'mb-0'">
       <div class="pa-2">
-        <v-row class="pa-3" align="center">
+        <v-row class="pa-3">
           <v-text-field
             label="Shortened URL"
             outlined
@@ -17,11 +17,14 @@
           <v-text-field
             label="Target URL"
             outlined
-            hide-details="true"
+            hide-details="auto"
             :value="isNew ? 'https://' : target"
             v-model="targetUrl"
+            :rules="[rules.url]"
           >
           </v-text-field>
+          <span class="px-2" />
+          <v-switch v-model="caseSensitiveUrl" label="Case sensitive" hide-details="auto"></v-switch>
           <span class="px-2" />
           <v-btn outlined large height="56" @click="submitLink()">
             <span v-if="isNew">Add<v-icon> mdi-plus </v-icon></span>

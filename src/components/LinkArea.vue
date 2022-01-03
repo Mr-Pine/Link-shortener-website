@@ -7,6 +7,7 @@
         :short="link.short"
         :target="link.target"
         :isNew="link.new"
+        :caseSensitive="link.caseSensitive"
         @addLink="addLink"
         @deleteLink="deleteLink"
         @editLink="editLink"
