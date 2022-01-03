@@ -1,9 +1,10 @@
 import Vue from "vue";
 import LinkArea from "./components/LinkArea.vue";
+import secrets from "./secrets";
 
 let linksData = [] as { short: string; target: string; caseSensitive: boolean; new: boolean }[];
 
-const host = process.env.NODE_ENV === 'production' ? "" : "https://mr-pine.de/links/"
+const host = secrets.host
 
 export default Vue.extend({
     name: "App",
