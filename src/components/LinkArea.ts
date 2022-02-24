@@ -13,15 +13,15 @@ export default Vue.extend({
   ],
 
   methods: {
-    addLink(data: { short: string, target: string }) {
+    addLink(data: { shortUri: string, destinationUrl: string }, onOK: () => void) {
       console.log(data)
-      this.$emit("addLink", data)
+      this.$emit("addLink", data, onOK)
     },
     deleteLink(short: string) {
       console.log("deleting " + short)
       this.$emit("deleteLink", short)
     },
-    editLink(data: { short: string, target: string, oldShort: string }) {
+    editLink(data: { shortUri: string, destinationUrl: string, shortUrlOld: string }) {
       console.log(data)
       this.$emit("editLink", data)
     }

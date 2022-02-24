@@ -13,11 +13,12 @@ export default Vue.extend({
   methods: {
     submitLink() {
       if (this.isNew) {
-        this.$emit("addLink", { short: this.shortUrl, target: this.targetUrl, caseSensitive: this.caseSensitiveUrl })
-        this.shortUrl = ''
-        this.targetUrl = ''
+        this.$emit("addLink", { shortUri: this.shortUrl, destinationUrl: this.targetUrl, caseSensitive: this.caseSensitiveUrl }, () => {
+          this.shortUrl = ''
+          this.targetUrl = ''
+        })
       } else {
-        this.$emit("editLink", {short: this.shortUrl, target: this.targetUrl, oldShort: this.short, caseSensitive: this.caseSensitiveUrl})
+        this.$emit("editLink", {shortUri: this.shortUrl, destinationUrl: this.targetUrl, oldShort: this.short, caseSensitive: this.caseSensitiveUrl})
       }
     },
     deleteLink() {
@@ -38,7 +39,7 @@ export default Vue.extend({
       copied: false,
       rules: {
         url: (value: string) => {
-          return value.includes("://") || value.length <= 0 || "not a valid url"
+          return value.substring(0, 8).includes("://") || value.length <= 0 || "not a valid url"
         }
       }
     }
